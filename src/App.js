@@ -16,7 +16,9 @@ class App extends Component {
                 name: '',
                 status: -1
             },
-            keyword: ''
+            keyword: '',
+            sortBy: 'name',
+            sortValue: 1
         };
     }
 
@@ -143,8 +145,24 @@ class App extends Component {
         });
     }
 
+    onSort = (sortBy , sortValue) => {
+        this.setState({
+           sortBy: sortBy,
+           sortValue: sortValue
+        });
+    }
+
     render() {
-        var { tasks, isDisplayForm, taskEditing, filter, keyword } = this.state; //var tasks = this.state.tasks;
+        var { 
+            tasks, 
+            isDisplayForm, 
+            taskEditing, 
+            filter, 
+            keyword,
+            sortBy,
+            sortValue
+        } = this.state;
+
         if (filter) {
             if (filter.name) {
                 tasks = tasks.filter(task => {
@@ -165,6 +183,21 @@ class App extends Component {
                 return task.name.toLowerCase().indexOf(keyword) !== -1;
             });
         }
+        if (sortBy === 'name') {
+            tasks.sort((a, b) => {
+                if (a.name > b.name) return sortValue;
+                else if (a.name < b.name) return -sortValue;
+                else return 0;
+            });
+        }
+        else {
+            tasks.sort((a, b) => {
+                if (a.status > b.status) return -sortValue;
+                else if (a.status < b.status) return sortValue;
+                else return 0;
+            });
+        }
+
         var elmTaskForm = isDisplayForm ? 
             <TaskForm 
                 onSubmit={ this.onSubmit }
@@ -189,7 +222,12 @@ class App extends Component {
                         >
                             <span className="fa fa-plus mr-5"></span>Thêm Công Việc
                         </button>
-                        <Control onSearch = { this.onSearch }/>
+                        <Control 
+                            onSearch = { this.onSearch }
+                            onSort = { this.onSort }
+                            sortBy = { sortBy }
+                            sortValue = { sortValue }
+                        />
                         <div className="row mt-15">
                             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <TaskList 
