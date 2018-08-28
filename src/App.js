@@ -10,7 +10,9 @@ class App extends Component {
     
         this.state = {
             tasks: [], //id: unique, name, status
-            isDisplayForm: false
+            isDisplayForm: false,
+            taskEditing: null
+
         };
     }
 
@@ -32,9 +34,18 @@ class App extends Component {
     }
 
     onToggleForm = () => {
-        this.setState({
-            isDisplayForm: !this.state.isDisplayForm
-        });
+        if (this.state.isDisplayForm && this.state.taskEditing !== null) {
+            this.setState({
+                isDisplayForm: true,
+                taskEditing: null
+            })
+        }
+        else {
+            this.setState({
+                isDisplayForm: !this.state.isDisplayForm,
+                taskEditing: null
+            });
+        }
     }
 
     onCloseForm = () => {
@@ -43,12 +54,25 @@ class App extends Component {
         });
     }
 
+    onShowForm = () => {
+        this.setState({
+            isDisplayForm: true
+        })
+    }
+
     onSubmit = (data) => {
         var { tasks } = this.state;
-        data.id = this.generateID();
-        tasks.push(data);
+        if (data.id === '') {
+            data.id = this.generateID();
+            tasks.push(data);
+        } 
+        else {
+            var index = this.findIndex(data.id);
+            tasks[index] = data;
+        }
         this.setState({
-            tasks: tasks
+            tasks: tasks,
+            taskEditing: null
         });
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
@@ -89,12 +113,23 @@ class App extends Component {
         }
     }
 
+    onUpdate = (id) => {
+        var { tasks } = this.state;
+        var index = this.findIndex(id);
+        var taskEditing = tasks[index];
+        this.setState({
+            taskEditing: taskEditing
+        });
+        this.onShowForm();
+    }
+
     render() {
-        var { tasks, isDisplayForm } = this.state; //var tasks = this.state.tasks;
+        var { tasks, isDisplayForm, taskEditing } = this.state; //var tasks = this.state.tasks;
         var elmTaskForm = isDisplayForm ? 
             <TaskForm 
-                onCloseForm={ this.onCloseForm } 
                 onSubmit={ this.onSubmit }
+                onCloseForm={ this.onCloseForm } 
+                task = { taskEditing }
             /> : '';
         return (
             <div className="container">
@@ -121,6 +156,7 @@ class App extends Component {
                                     tasks={ tasks }
                                     onUpdateStatus={ this.onUpdateStatus }
                                     onDelete={ this.onDelete }
+                                    onUpdate={ this.onUpdate }
                                 />
                             </div>
                         </div>
