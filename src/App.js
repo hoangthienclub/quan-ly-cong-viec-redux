@@ -122,10 +122,6 @@ class App extends Component {
         //     });
         // }
 
-        var elmTaskForm = isDisplayForm ? 
-            <TaskForm 
-                task = { taskEditing }
-            /> : '';
         return (
             <div className="container">
                 <div className="text-center">
@@ -134,7 +130,7 @@ class App extends Component {
                 </div>
                 <div className="row">
                     <div className= { isDisplayForm === true? 'col-xs-4 col-sm-4 col-md-4 col-lg-4': '' }>
-                        { elmTaskForm }
+                        <TaskForm task = { taskEditing } />
                     </div>
                     <div className={ isDisplayForm === true? 'col-xs-8 col-sm-8 col-md-8 col-lg-8' : 'col-xs-12 col-sm-12 col-md-12 col-lg-12'}>
                         <button 
