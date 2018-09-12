@@ -12,7 +12,16 @@ class App extends Component {
     }
 
     onToggleForm = () => {
-        this.props.onToggleForm();
+        var { editTask } = this.props;
+        if (editTask && editTask.id !== '') {
+            this.props.onOpenForm();
+        } else {
+            this.props.onToggleForm();
+        }
+        this.props.onClearTask({-            id: '',
+            name: '',
+            status: false
+        });
     }
 
     onShowForm = () => {
