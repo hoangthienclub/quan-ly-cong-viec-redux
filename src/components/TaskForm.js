@@ -114,13 +114,12 @@ class TaskForm extends Component {
                         <br/>
                         <div className="text-center">
                             <button 
-                                type="submit" 
+                                type='submit'
                                 className="btn btn-warning"
                             >Lưu Lại</button>&nbsp;
                             <button 
-                                type="submit" 
                                 className="btn btn-danger"
-                                onClick={ this.onCloseForm }
+                                onClick={ this.onClear }
                             >Hủy Bỏ</button>
                         </div>
                     </form>
