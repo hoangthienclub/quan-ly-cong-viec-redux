@@ -18,7 +18,7 @@ class TaskItem extends Component {
     }
 
     render() {
-        var {index, task, onUpdateStatus } = this.props;
+        var {index, task } = this.props;
         return (
             <tr>
                 <td>{ index + 1}</td>

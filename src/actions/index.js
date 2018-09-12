@@ -6,9 +6,9 @@ export const list_all = () => {
 	}
 }
 
-export const addTask = (task) => {
+export const saveTask = (task) => {
 	return {
-		type: types.ADD_TASK,
+		type: types.SAVE_TASK,
 		task
 	}
 }

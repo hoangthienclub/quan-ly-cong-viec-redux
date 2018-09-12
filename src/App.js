@@ -23,7 +23,17 @@ class App extends Component {
     }
 
     onToggleForm = () => {
-        this.props.onToggleForm();
+        var { editTask } = this.props;
+        if (editTask && editTask.id != '') {
+            this.props.onOpenForm();
+        } else {
+            this.props.onToggleForm();
+        }
+        this.props.onClearTask({
+            id: '',
+            name: '',
+            status: false
+        });
     }
 
     onShowForm = () => {
@@ -78,7 +88,6 @@ class App extends Component {
     render() {
         var { 
             // tasks, 
-            taskEditing, 
             filter, 
             keyword,
             sortBy,
@@ -130,7 +139,7 @@ class App extends Component {
                 </div>
                 <div className="row">
                     <div className= { isDisplayForm === true? 'col-xs-4 col-sm-4 col-md-4 col-lg-4': '' }>
-                        <TaskForm task = { taskEditing } />
+                        <TaskForm/>
                     </div>
                     <div className={ isDisplayForm === true? 'col-xs-8 col-sm-8 col-md-8 col-lg-8' : 'col-xs-12 col-sm-12 col-md-12 col-lg-12'}>
                         <button 
@@ -163,7 +172,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
     return {
-        isDisplayForm: state.isDisplayForm
+        isDisplayForm: state.isDisplayForm,
+        editTask: state.editTask
     };
 }
 
@@ -174,6 +184,9 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onOpenForm: () => {
             dispatch(actions.openForm());
+        },
+        onClearTask: (task) => {
+            dispatch(actions.editTask(task));
         }
     };
 }
