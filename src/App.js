@@ -9,94 +9,19 @@ import * as actions from './actions/index';
 class App extends Component {
     constructor(props) {
         super(props);
-    
-        this.state = {
-            keyword: '',
-            sortBy: 'name',
-            sortValue: 1
-        };
     }
 
     onToggleForm = () => {
-        var { editTask } = this.props;
-        if (editTask && editTask.id !== '') {
-            this.props.onOpenForm();
-        } else {
-            this.props.onToggleForm();
-        }
-        this.props.onClearTask({
-            id: '',
-            name: '',
-            status: false
-        });
+        this.props.onToggleForm();
     }
 
     onShowForm = () => {
         this.props.onOpenForm();
     }
 
-    findIndex = (id) => {
-        var { tasks } = this.state;
-        var result = -1;
-        tasks.forEach((task, index) => {
-            if (task.id === id) {
-                result = index;
-            }
-        });
-        return result;
-    }
-
-    onUpdate = (id) => {
-        var { tasks } = this.state;
-        var index = this.findIndex(id);
-        var taskEditing = tasks[index];
-        this.setState({
-            taskEditing: taskEditing
-        });
-        this.onShowForm();
-    }
-
-    onSearch = (keyword) => {
-        this.setState({
-            keyword: keyword
-        });
-    }
-
-    onSort = (sortBy , sortValue) => {
-        this.setState({
-           sortBy: sortBy,
-           sortValue: sortValue
-        });
-    }
-
     render() {
-        var { 
-            // tasks, 
-            sortBy,
-            sortValue
-        } = this.state;
 
         var { isDisplayForm } = this.props;
-
-        // if (keyword) {
-            // tasks = tasks.filter(task => {
-            //     return task.name.toLowerCase().indexOf(keyword) !== -1;
-            // });
-        // }
-        // if (sortBy === 'name') {
-        //     tasks.sort((a, b) => {
-        //         if (a.name > b.name) return sortValue;
-        //         else if (a.name < b.name) return -sortValue;
-        //         else return 0;
-        //     });
-        // }
-        // else {
-        //     tasks.sort((a, b) => {
-        //         if (a.status > b.status) return -sortValue;
-        //         else if (a.status < b.status) return sortValue;
-        //         else return 0;
-        //     });
-        // }
 
         return (
             <div className="container">
@@ -116,12 +41,7 @@ class App extends Component {
                         >
                             <span className="fa fa-plus mr-5"></span> Thêm Công Việc
                         </button>
-                        <Control 
-                            onSearch = { this.onSearch }
-                            onSort = { this.onSort }
-                            sortBy = { sortBy }
-                            sortValue = { sortValue }
-                        />
+                        <Control />
                         <div className="row mt-15">
                             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <TaskList />
