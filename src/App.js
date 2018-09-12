@@ -18,7 +18,8 @@ class App extends Component {
         } else {
             this.props.onToggleForm();
         }
-        this.props.onClearTask({-            id: '',
+        this.props.onClearTask({            
+            id: '',
             name: '',
             status: false
         });
